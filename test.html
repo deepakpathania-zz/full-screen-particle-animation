@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width">
+
+<script src="../polyfill-loader.js"></script>
+
+<body>
+<style>
+body{
+  background-color: black;
+  position: absolute;
+}
+ball {
+    position: absolute;
+    left: 50vw;
+    top: 50vh;
+    width: 10px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 0px 0px 40px magenta;
+}
+</style>
+<script>
+var n = 100;
+var frames = [];
+
+frames.push({transform: 'none'})
+var frameCount = 20;
+var translate = 0;
+var rotate = 0;
+var rotateY = 0;
+var scale = 1;
+var z = 0;
+for (var i = 0; i < frameCount; i++) {
+  z += (0.1  * 100);
+  scale += (0.01 * 2);
+  rotate += (0.1 * 1080);
+  rotateY += (0.5 * 1080);
+  translate += (0.7 * 500);
+  frames.push({
+    transform: 'rotate(' + rotate + 'deg) rotateY(' + rotateY + 'deg) translateX(' + translate + 'px) scale(' + scale + ') translateZ(' + z + 'px)',
+  });
+}
+frames.push({transform: 'none'})
+
+var duration = frames.length * 50000;
+
+for (var i = 0; i < n; i++) {
+  var ball = document.createElement('ball');
+  var color = 'rgb(' + Math.round((i / n) * 256) + ', 90, 200)';
+  ball.style.background = color;
+  document.body.appendChild(ball);
+  ball.classList.add('ball');
+  ball.animate(frames, {
+    duration: duration,
+    iterations: Infinity,
+    delay: i / n * -duration,
+  });
+}
+</script>
+</body>
+</html>
